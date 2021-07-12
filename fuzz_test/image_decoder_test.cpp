@@ -20,6 +20,7 @@ static void init() {
   dali::DALIInit(dali::OpSpec("CPUAllocator"),
                  dali::OpSpec("PinnedCPUAllocator"),
                  dali::OpSpec("GPUAllocator"));
+  /* std::ios_base::sync_with_stdio(false); */
   init_flag = true;
 }
 
@@ -29,14 +30,21 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size) {
   }
   init();
 
-  std::ios_base::sync_with_stdio(false);
+  uint8_t header[2];
+  header[0] = 0xFF;
+  header[1] = 0xD8;
   std::string file_name = "/tmp/dali_fuzz_image_decoder_test.jpg";
   {
     auto myfile = std::fstream(file_name, std::ios::out | std::ios::binary);
+    myfile.write((const char *)(header), 2);
     myfile.write((const char *)(Data), Size);
   }
-  dali::DecoderHarness harness{file_name};
-  harness.Run();
+  try {
+
+    dali::DecoderHarness harness{file_name};
+    harness.Run();
+  } catch (...) {
+  }
 
   return 0; // Non-zero return values are reserved for future use.
 }
