@@ -23,17 +23,6 @@ static void init() {
   init_flag = true;
 }
 
-namespace dali {
-namespace testing {
-
-const std::string &dali_extra_path() {
-  static std::string tmp = "";
-  return tmp;
-}
-
-} // namespace testing
-} // namespace dali
-
 extern "C" int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size) {
   if (Size != 0) {
     return 0;
@@ -41,8 +30,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size) {
   init();
 
   std::ios_base::sync_with_stdio(false);
-  auto startTime = std::chrono::high_resolution_clock::now();
-  std::string file_name = "/tmp/dali_fuzz_image_decoder_test";
+  std::string file_name = "/tmp/dali_fuzz_image_decoder_test.jpg";
   {
     auto myfile = std::fstream(file_name, std::ios::out | std::ios::binary);
     myfile.write((const char *)(Data), Size);
