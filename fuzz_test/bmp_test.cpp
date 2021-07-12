@@ -10,10 +10,11 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size) {
     if (Size <= 2) {
       return 0;
     }
-    dali::DALIImageType image_type = static_cast<dali::DALIImageType>(Data[0]);
+    dali::DALIImageType image_type =
+        static_cast<dali::DALIImageType>(Data[0] % 5);
     dali::BmpImage img(Data + 1, Size - 1, image_type);
-    img.Decode();
     img.PeekShape();
+    img.Decode();
   } catch (...) {
   }
   return 0; // Non-zero return values are reserved for future use.
