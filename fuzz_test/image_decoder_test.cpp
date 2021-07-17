@@ -20,7 +20,6 @@ static void init() {
   dali::DALIInit(dali::OpSpec("CPUAllocator"),
                  dali::OpSpec("PinnedCPUAllocator"),
                  dali::OpSpec("GPUAllocator"));
-  /* std::ios_base::sync_with_stdio(false); */
   init_flag = true;
 }
 
@@ -40,7 +39,6 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size) {
     myfile.write((const char *)(Data), Size);
   }
   try {
-
     dali::DecoderHarness harness{file_name};
     harness.Run();
   } catch (...) {
