@@ -21,6 +21,8 @@ foreach(fuzzing_source IN LISTS fuzzing_sources)
   target_include_directories(fuzz_${fuzzing_prog}
                              PRIVATE ${CMAKE_INSTALL_PREFIX}/include)
   target_include_directories(fuzz_${fuzzing_prog}
+                             PRIVATE /home/cyy/cbuild/.internal/sources/DALI/third_party/libcudacxx/include)
+  target_include_directories(fuzz_${fuzzing_prog}
                              PRIVATE ${CMAKE_INSTALL_PREFIX})
   target_link_directories(fuzz_${fuzzing_prog} PRIVATE
                           ${CMAKE_INSTALL_PREFIX}/lib)
